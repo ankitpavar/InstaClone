@@ -1,7 +1,15 @@
 import React from 'react';
 import { useFeedPostStyles } from '../../styles';
 import UserCard from '../shared/UserCard';
-import { MoreIcon, CommentIcon, ShareIcon } from '../../icons';
+import {
+  MoreIcon,
+  CommentIcon,
+  ShareIcon,
+  LikeIcon,
+  UnlikeIcon,
+  RemoveIcon,
+  SaveIcon,
+} from '../../icons';
 import { Link } from 'react-router-dom';
 import { Typography, Button, Divider, Hidden } from '@material-ui/core';
 import HTMLEllipsis from 'react-lines-ellipsis/lib/html';
@@ -16,7 +24,7 @@ function FeedPost({ post }) {
       <article className={classes.article}>
         {/* Feed Post Header */}
         <div className={classes.postHeader}>
-          <UserCard />
+          <UserCard user={user} />
           <MoreIcon className={classes.moreIcon} />
         </div>
         {/* Feed Post Header */}
@@ -61,18 +69,25 @@ function FeedPost({ post }) {
                   ellipsis="..."
                   basedOn="letters"
                 />
-                <Button className={classes.moreButton} onClick={() => setCaption(true)}>
+                <Button
+                  className={classes.moreButton}
+                  onClick={() => setCaption(true)}
+                >
                   more
                 </Button>
               </div>
             )}
           </div>
           <Link to={`/p/${id}`}>
-            <Typography className={classes.commentsLink} variant='body2' component='div'>
-                View all {comments.length} comments
+            <Typography
+              className={classes.commentsLink}
+              variant="body2"
+              component="div"
+            >
+              View all {comments.length} comments
             </Typography>
           </Link>
-          {comments.map(comment => (
+          {comments.map((comment) => (
             <div key={comment.id}>
               <Link to={`/${comment.user.username}`}>
                 <Typography
@@ -80,7 +95,7 @@ function FeedPost({ post }) {
                   component="span"
                   className={classes.commentUsername}
                 >
-                  {comment.user.username} 
+                  {comment.user.username}
                 </Typography>{' '}
                 <Typography variant="body2" component="span">
                   {comment.content}
@@ -93,8 +108,8 @@ function FeedPost({ post }) {
           </Typography>
         </div>
         <Hidden xsDown>
-          <Divider/>
-          <Comment/>
+          <Divider />
+          <Comment />
         </Hidden>
       </article>
     </>
@@ -102,17 +117,39 @@ function FeedPost({ post }) {
 }
 
 function LikeButton() {
-  return <>LikeButton</>
+  const classes = useFeedPostStyles();
+  const [liked, setLiked] = React.useState(false);
+  const Icon = liked ? UnlikeIcon : LikeIcon;
+  const className = liked ? classes.liked : classes.like;
+  const onClick = liked ? handleUnlike : handleLike;
+
+  function handleLike() {
+    setLiked(true);
+  }
+  function handleUnlike() {
+    setLiked(false);
+  }
+  return <Icon className={className} onClick={onClick} />;
 }
 
 function SaveButton() {
-  return <>SaveButton</>;
+  const [saved, setSaved] = React.useState(false);
+  const Icon = saved ? RemoveIcon : SaveIcon;
+  const onClick = saved ? handleRemove : handleSave;
 
+  function handleSave() {
+    setSaved(true);
+  }
+  function handleRemove() {
+    setSaved(false);
+  }
+  return <Icon onClick={onClick} />;
 }
 
 function Comment() {
-  return <>comment</>;
+  const classes = useFeedPostStyles();
 
+  return <>comment</>;
 }
 
 export default FeedPost;
