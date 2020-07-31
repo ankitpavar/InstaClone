@@ -11,7 +11,7 @@ import {
   SaveIcon,
 } from '../../icons';
 import { Link } from 'react-router-dom';
-import { Typography, Button, Divider, Hidden } from '@material-ui/core';
+import { Typography, Button, Divider, Hidden, TextField } from '@material-ui/core';
 import HTMLEllipsis from 'react-lines-ellipsis/lib/html';
 
 function FeedPost({ post }) {
@@ -133,6 +133,7 @@ function LikeButton() {
 }
 
 function SaveButton() {
+  const classes = useFeedPostStyles();
   const [saved, setSaved] = React.useState(false);
   const Icon = saved ? RemoveIcon : SaveIcon;
   const onClick = saved ? handleRemove : handleSave;
@@ -143,13 +144,34 @@ function SaveButton() {
   function handleRemove() {
     setSaved(false);
   }
-  return <Icon onClick={onClick} />;
+  return <Icon className={classes.saveIcon} onClick={onClick} />;
 }
 
 function Comment() {
   const classes = useFeedPostStyles();
+  const [content, setContent] = React.useState('');
 
-  return <>comment</>;
+  return (
+    <div className={classes.commentContainer}>
+      <TextField
+        fullWidth
+        value={content}
+        placeholder="Add a comment..."
+        rowsMax={2}
+        rows={1}
+        onChange={e => setContent(e.target.value)}
+        className={classes.textField}
+        InputProps={{
+          classes: {
+            root: classes.root,
+            underline: classes.underline
+          }
+        }}
+        />
+        <Button color="primary" className={classes.commentButton}
+        disabled={!content.trim()}>Post</Button>
+    </div>
+  )
 }
 
 export default FeedPost;
