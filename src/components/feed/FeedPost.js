@@ -18,12 +18,15 @@ import FollowSuggestions from '../shared/FollowSuggestions'
 function FeedPost({ post, index }) {
   const classes = useFeedPostStyles();
   const [showCaption, setCaption] = React.useState(false);
+  const [showOptionsDialog, setOptionsDialog] = React.useState(false);
   const { id, media, likes, user, caption, comments } = post;
   const showFollowSuggestions = index === 1;
 
   return (
     <>
-      <article className={classes.article}>
+      <article className={classes.article}
+        style={{marginBottom: showFollowSuggestions && 30 }}
+      >
         {/* Feed Post Header */}
         <div className={classes.postHeader}>
           <UserCard user={user} />
