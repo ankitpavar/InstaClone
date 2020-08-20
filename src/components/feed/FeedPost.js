@@ -11,9 +11,16 @@ import {
   SaveIcon,
 } from '../../icons';
 import { Link } from 'react-router-dom';
-import { Typography, Button, Divider, Hidden, TextField } from '@material-ui/core';
+import {
+  Typography,
+  Button,
+  Divider,
+  Hidden,
+  TextField,
+} from '@material-ui/core';
 import HTMLEllipsis from 'react-lines-ellipsis/lib/html';
-import FollowSuggestions from '../shared/FollowSuggestions'
+import FollowSuggestions from '../shared/FollowSuggestions';
+import OptionsDialog from '../shared/OptionsDialog'
 
 function FeedPost({ post, index }) {
   const classes = useFeedPostStyles();
@@ -24,13 +31,17 @@ function FeedPost({ post, index }) {
 
   return (
     <>
-      <article className={classes.article}
-        style={{marginBottom: showFollowSuggestions && 30 }}
+      <article
+        className={classes.article}
+        style={{ marginBottom: showFollowSuggestions && 30 }}
       >
         {/* Feed Post Header */}
         <div className={classes.postHeader}>
           <UserCard user={user} />
-          <MoreIcon className={classes.moreIcon} />
+          <MoreIcon
+            className={classes.moreIcon}
+            onClick={() => setOptionsDialog(true)}
+          />
         </div>
         {/* Feed Post Header */}
         <div>
@@ -46,7 +57,7 @@ function FeedPost({ post, index }) {
             <ShareIcon />
             <SaveButton />
           </div>
-          <Typography variant="subtitle2" className={classes.like}>
+          <Typography variant="subtitle2" className={classes.likes}>
             <span>{likes === 1 ? '1 like' : `${likes} likes`}</span>
           </Typography>
           <div className={showCaption ? classes.expanded : classes.collapsed}>
@@ -117,7 +128,8 @@ function FeedPost({ post, index }) {
           <Comment />
         </Hidden>
       </article>
-      {showFollowSuggestions && <FollowSuggestions/>}
+      {showFollowSuggestions && <FollowSuggestions />}
+      {showOptionsDialog && <OptionsDialog onClose={() => setOptionsDialog(false)} />}
     </>
   );
 }
@@ -165,19 +177,24 @@ function Comment() {
         placeholder="Add a comment..."
         rowsMax={2}
         rows={1}
-        onChange={e => setContent(e.target.value)}
+        onChange={(e) => setContent(e.target.value)}
         className={classes.textField}
         InputProps={{
           classes: {
             root: classes.root,
-            underline: classes.underline
-          }
+            underline: classes.underline,
+          },
         }}
-        />
-        <Button color="primary" className={classes.commentButton}
-        disabled={!content.trim()}>Post</Button>
+      />
+      <Button
+        color="primary"
+        className={classes.commentButton}
+        disabled={!content.trim()}
+      >
+        Post
+      </Button>
     </div>
-  )
+  );
 }
 
 export default FeedPost;

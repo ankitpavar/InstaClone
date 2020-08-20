@@ -9,19 +9,19 @@ import { getDefaultUser } from '../../data';
 import { Link } from 'react-router-dom';
 import FollowButton from './FollowButton';
 
-function FollowSuggestions() {
+function FollowSuggestions({hideHeader}) {
   const classes = useFollowSuggestionsStyles();
 
   let loading = false;
   return (
     <div className={classes.container}>
-      <Typography
+      {!hideHeader && <Typography
         variant="subtitle2"
         className={classes.typography}
         color="textSecondary"
       >
         Suggestions For You
-        </Typography>
+        </Typography>}
         {loading ? (
           <LoadingLargeIcon />
         ) : (
