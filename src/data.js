@@ -60,11 +60,11 @@ export const defaultNotifications = [
 
 export const defaultCurrentUser = {
   id: uuid(),
-  username: 'me',
-  name: 'myself',
+  username: 'ankit_pavar03',
+  name: 'Ankit',
   profile_image:
-    'hhttps://randomuser.me/api/portraits/lego/6.jpg',
-  website: 'https://react12.io',
+    'https://randomuser.me/api/portraits/lego/6.jpg',
+  website: 'https://github.com/ankitpavar',
   email: 'me@gmail.com',
   bio: 'This is my bio',
   phone_number: '555-555-5555',
