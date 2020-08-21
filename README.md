@@ -1,1 +1,1 @@
-# instagram-react12
+# Instagram Clone using react and GraphQL
