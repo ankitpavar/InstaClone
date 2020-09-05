@@ -7,3 +7,14 @@ export const CHECK_IF_USERNAMES_TAKEN = gql`
     }
   }
 `;
+export const GET_USER_EMAIL = gql`
+  query getUserEmail($input: String!) {
+    users(
+      where: {
+        _or: [{ username: { _eq: $input } }, { phone_number: { _eq: $input } }]
+      }
+    ) {
+      email
+    }
+  }
+`;

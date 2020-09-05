@@ -173,7 +173,7 @@ function SignUpPage() {
                 type="password"
                 margin="dense"
                 className={classes.textField}
-                autocomplete="new-password"
+                autoComplete="new-password"
               />
               <Button
                 disabled={!formState.isValid || formState.isSubmitting}
