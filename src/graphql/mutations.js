@@ -29,9 +29,42 @@ export const CREATE_USER = gql`
 `;
 
 export const EDIT_USER = gql`
- mutation editUser($id: uuid!, $name: String!, $username: String!, $website: String!, $bio: String!, $email: String!, $phoneNumber: String!){
-   update_users(where: {id: {_eq: $id}}, _set: {name: $name, username: $username, website: $website, bio: $bio, email: $email, phone_number: $phoneNumber}){
-     affected_rows
-   }
- }
-`
+  mutation editUser(
+    $id: uuid!
+    $name: String!
+    $username: String!
+    $website: String!
+    $bio: String!
+    $email: String!
+    $phoneNumber: String!
+  ) {
+    update_users(
+      where: { id: { _eq: $id } }
+      _set: {
+        name: $name
+        username: $username
+        website: $website
+        bio: $bio
+        email: $email
+        phone_number: $phoneNumber
+      }
+    ) {
+      affected_rows
+    }
+  }
+`;
+export const EDIT_USER_AVATAR = gql`
+  mutation editUserAvatar(
+    $id: uuid!
+    $profileImage: String!
+  ) {
+    update_users(
+      where: { id: { _eq: $id } }
+      _set: {
+        profile_image: $profileImage
+      }
+    ) {
+      affected_rows
+    }
+  }
+`;

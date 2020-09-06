@@ -32,4 +32,18 @@ export const GET_EDIT_USER_PROFILE = gql`
       phone_number
     }
   }
-`
+`;
+export const SEARCH_USERS = gql`
+  query searchUsers($query: String) {
+    users(
+      where: {
+        _or: [{ username: { _ilike: $query } }, { name: { _ilike: $query } }]
+      }
+    ) {
+      id
+      username
+      name
+      profile_image
+    }
+  }
+`;

@@ -24,8 +24,9 @@ import { useForm } from 'react-hook-form';
 import isURL from 'validator/lib/isURL';
 import isEmail from 'validator/lib/isEmail';
 import isMobilePhone from 'validator/lib/isMobilePhone';
-import { EDIT_USER } from '../graphql/mutations';
+import { EDIT_USER, EDIT_USER_AVATAR } from '../graphql/mutations';
 import { AuthContext } from '../auth';
+import handleImageUpload from '../utils/handleImageUpload';
 
 function EditProfilePage({ history }) {
   const { currentUserId } = React.useContext(UserContext);
@@ -140,8 +141,10 @@ const DEFAULT_ERROR = { type: '', message: '' }
 function EditUserInfo({ user }) {
   const classes = useEditProfilePageStyles();
   const { register, handleSubmit } = useForm({ mode: 'onBlur' });
+  const [profileImage, setProfileImage] = React.useState(user.profile_image)
   const { updateEmail } = React.useContext(AuthContext);
   const [editUser] = useMutation(EDIT_USER);
+  const [editUserAvatar] = useMutation(EDIT_USER_AVATAR);
   const [error, setError] = React.useState(DEFAULT_ERROR);
   const [open, setOpen] = React.useState(false)
    
@@ -167,22 +170,37 @@ function EditUserInfo({ user }) {
     }
       
   }
+  async function handleUpdateProfilePic(event){
+    const url = await handleImageUpload(event.target.files[0])
+    const variables = {id: user.id, profileImage: url};
+    await editUserAvatar({ variables})
+    setProfileImage(url)
+  }
 
   return (
     <section className={classes.container}>
       <div className={classes.pictureSectionItem}>
-        <ProfilePicture size={38} image={user.profile_image} />
+        <ProfilePicture size={38} image={profileImage} />
         <div className={classes.justifySelfStart}>
           <Typography className={classes.typography}>
             {user.username}
           </Typography>
-          <Typography
-            color="primary"
-            variant="body2"
-            className={classes.typographyChangePic}
-          >
-            Change Profile Photo   
+          <input 
+            accept="image/*"
+            id="image"
+            type='file'
+            style={{display: 'none'}}
+            onChange={handleUpdateProfilePic}
+          />
+        <label htmlFor='image'>
+            <Typography
+              color="primary"
+              variant="body2"
+              className={classes.typographyChangePic}
+            >
+              Change Profile Photo
           </Typography>
+        </label>
         </div>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
