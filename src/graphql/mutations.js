@@ -54,14 +54,28 @@ export const EDIT_USER = gql`
   }
 `;
 export const EDIT_USER_AVATAR = gql`
-  mutation editUserAvatar(
-    $id: uuid!
-    $profileImage: String!
-  ) {
+  mutation editUserAvatar($id: uuid!, $profileImage: String!) {
     update_users(
       where: { id: { _eq: $id } }
-      _set: {
-        profile_image: $profileImage
+      _set: { profile_image: $profileImage }
+    ) {
+      affected_rows
+    }
+  }
+`;
+export const CREATE_POST = gql`
+  mutation createPost(
+    $userId: uuid!
+    $media: String!
+    $location: String!
+    $caption: String!
+  ) {
+    insert_posts(
+      objects: {
+        user_id: $userId
+        media: $media
+        location: $location
+        caption: $caption
       }
     ) {
       affected_rows
